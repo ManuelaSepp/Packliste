@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Packliste – Generator V5 Excelbasiert</title>
+<title>Packliste V6 Excelbasiert</title>
 <style>
 :root {
   --bg:#f4f0e8;
@@ -32,7 +32,7 @@ label{display:flex;gap:10px;align-items:flex-start;margin:9px 0;line-height:1.25
 input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);margin-top:1px}
 input[type=number]{width:90px;padding:9px 10px;border:1px solid var(--line);border-radius:12px;font-size:16px;background:white}
 small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
-.modelbox{border:1px dashed var(--line);background:#fffaf2;border-radius:16px;padding:12px;margin-top:10px}
+.modelbox{display:none;border:1px dashed var(--line);background:#fffaf2;border-radius:16px;padding:12px;margin-top:10px}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 button{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:pointer}
 .primary{background:var(--green);color:white}
@@ -58,17 +58,17 @@ button{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:poi
 <body>
 <div class="page">
   <div class="header">
-    <h1>Packliste – Generator V5</h1>
-    <div class="sub">Excelbasiert · getrennt nach Manuela, Loisl und Gemeinsam · Modellflug-Auswahl bleibt erhalten</div>
-    <div id="summary" class="summary"></div>
+    <h1>Packliste V6</h1>
+    <div class="sub">Excelbasiert · getrennt nach Manuela, Loisl und Gemeinsam · Modell-Auswahl erscheint nur bei Modellflug</div>
+    
   </div>
 
   <div class="layout">
     <aside class="panel">
       <div class="block">
         <h2>👥 Wer fährt mit?</h2>
-        <label><input type="checkbox" id="p_manuela" checked> <span>Manuela<small>personenbezogene Packliste</small></span></label>
-        <label><input type="checkbox" id="p_loisl" checked> <span>Loisl<small>personenbezogene Packliste</small></span></label>
+        <label><input type="checkbox" id="p_manuela" checked> <span>Manuela</span></label>
+        <label><input type="checkbox" id="p_loisl" checked> <span>Loisl</span></label>
       </div>
 
       <div class="block">
@@ -78,34 +78,34 @@ button{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:poi
 
       <div class="block">
         <h2>📦 Basis</h2>
-        <label><input type="checkbox" id="a_urlaub" checked> <span>Urlaub<small>Basis für Reise allgemein</small></span></label>
+        <label><input type="checkbox" id="a_urlaub" checked> <span>Urlaub</span></label>
       </div>
 
       <div class="block">
         <h2>🚗 Reiseart</h2>
-        <label><input type="checkbox" id="a_flugreise"> <span>Flugreise<small>falls in Excel vorhanden</small></span></label>
-        <label><input type="checkbox" id="a_autoreise" checked> <span>Autoreise<small>falls in Excel vorhanden</small></span></label>
+        <label><input type="checkbox" id="a_flugreise"> <span>Flugreise</span></label>
+        <label><input type="checkbox" id="a_autoreise" checked> <span>Autoreise</span></label>
       </div>
 
       <div class="block">
         <h2>🌦️ Saison</h2>
-        <label><input type="checkbox" id="a_sommer" checked> <span>Sommer / Sonne<small>falls in Excel vorhanden</small></span></label>
+        <label><input type="checkbox" id="a_sommer" checked> <span>Sommer / Sonne</span></label>
       </div>
 
       <div class="block">
         <h2>🎯 Aktivität</h2>
-        <label><input type="checkbox" id="a_fotografie"> <span>Fotografie<small>Kameraausrüstung aktivieren</small></span></label>
-        <label><input type="checkbox" id="a_modellflug" checked> <span>Modellflug<small>Flugmodelle und Modellbau-Equipment aktivieren</small></span></label>
+        <label><input type="checkbox" id="a_fotografie"> <span>Fotografie</span></label>
+        <label><input type="checkbox" id="a_modellflug" checked> <span>Modellflug</span></label>
 
         <div class="modelbox" id="modelbox">
           <h3>Modellflug – Modell auswählen</h3>
-          <label><input type="checkbox" class="model" value="Pitts"> <span>Pitts<small>6 Zubehör-/Prüfpunkte</small></span></label>
-<label><input type="checkbox" class="model" value="Carbon Cub"> <span>Carbon Cub<small>1 Zubehör-/Prüfpunkte</small></span></label>
-<label><input type="checkbox" class="model" value="T28"> <span>T28<small>1 Zubehör-/Prüfpunkte</small></span></label>
-<label><input type="checkbox" class="model" value="Weißer Flieger"> <span>Weißer Flieger<small>1 Zubehör-/Prüfpunkte</small></span></label>
-<label><input type="checkbox" class="model" value="T-Rex 450"> <span>T-Rex 450<small>1 Zubehör-/Prüfpunkte</small></span></label>
-<label><input type="checkbox" class="model" value="Extra"> <span>Extra<small>1 Zubehör-/Prüfpunkte</small></span></label>
-<label><input type="checkbox" class="model" value="Goblin"> <span>Goblin<small>1 Zubehör-/Prüfpunkte</small></span></label>
+          <label><input type="checkbox" class="model" value="Pitts"> <span>Pitts</span></label>
+<label><input type="checkbox" class="model" value="Carbon Cub"> <span>Carbon Cub</span></label>
+<label><input type="checkbox" class="model" value="T28"> <span>T28</span></label>
+<label><input type="checkbox" class="model" value="Weißer Flieger"> <span>Weißer Flieger</span></label>
+<label><input type="checkbox" class="model" value="T-Rex 450"> <span>T-Rex 450</span></label>
+<label><input type="checkbox" class="model" value="Extra"> <span>Extra</span></label>
+<label><input type="checkbox" class="model" value="Goblin"> <span>Goblin</span></label>
         </div>
       </div>
 
@@ -184,6 +184,14 @@ function groupItems(items){
 function render(){
   const persons = selectedPersons();
   const acts = selectedActivities();
+
+  const modelbox = document.getElementById('modelbox');
+  const modellflugAktiv = document.getElementById('a_modellflug').checked;
+  modelbox.style.display = modellflugAktiv ? 'block' : 'none';
+  if(!modellflugAktiv){
+    document.querySelectorAll('.model').forEach(cb => cb.checked = false);
+  }
+
   const chosenModels = Array.from(document.querySelectorAll('.model:checked')).map(x=>x.value);
 
   const filtered = DB.items.filter(it => includeItem(it, persons, acts));
@@ -218,10 +226,9 @@ function render(){
     } else {
       for(const cat of catNames){
         const arr = cats[cat];
-        out += `<div class="category"><div class="cat-title"><span>${cat}</span><span class="count">${arr.length}</span></div>`;
+        out += `<div class="category"><div class="cat-title"><span>${cat}</span></div>`;
         for(const it of arr){
-          const note = it.note || it.required || it.activity || '';
-          out += `<label class="item"><input type="checkbox"><span>${qtyText(it.name)}${note ? `<div class="note">${note}</div>` : ''}</span></label>`;
+          out += `<label class="item"><input type="checkbox"><span>${qtyText(it.name)}</span></label>`;
         }
         out += `</div>`;
       }
@@ -230,7 +237,7 @@ function render(){
   }
 
   document.getElementById('results').innerHTML = out;
-  document.getElementById('summary').innerHTML = [
+  /* summary entfernt */ [
     ...persons.filter(p=>p!=='Gemeinsam'),
     document.getElementById('days').value + ' Tage',
     ...Array.from(acts),
