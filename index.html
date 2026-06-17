@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Packliste Excelbasiert</title>
+<title>Packliste</title>
 <style>
 :root {
   --bg:#f4f0e8;
@@ -67,8 +67,8 @@ button{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:poi
     <aside class="panel">
       <div class="block">
         <h2>👥 Wer fährt mit?</h2>
-        <label><input type="checkbox" id="p_manuela" checked> <span>Manuela</span></label>
-        <label><input type="checkbox" id="p_loisl" checked> <span>Loisl</span></label>
+        <label><input type="checkbox" id="p_manuela"> <span>Manuela</span></label>
+        <label><input type="checkbox" id="p_loisl"> <span>Loisl</span></label>
       </div>
 
       <div class="block">
@@ -78,26 +78,26 @@ button{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:poi
 
       <div class="block">
         <h2>📦 Basis</h2>
-        <label><input type="checkbox" id="a_urlaub" checked> <span>Urlaub</span></label>
+        <label><input type="checkbox" id="a_urlaub"> <span>Urlaub</span></label>
       </div>
 
       <div class="block">
         <h2>🚗 Reiseart</h2>
         <label><input type="checkbox" id="a_flugreise"> <span>Flugreise</span></label>
-        <label><input type="checkbox" id="a_autoreise" checked> <span>Autoreise</span></label>
+        <label><input type="checkbox" id="a_autoreise"> <span>Autoreise</span></label>
       </div>
 
       <div class="block">
         <h2>🌦️ Saison</h2>
-        <label><input type="checkbox" id="a_sommer" checked> <span>Sommer / Sonne</span></label>
+        <label><input type="checkbox" id="a_sommer"> <span>Sommer / Sonne</span></label>
       </div>
 
       <div class="block">
         <h2>🎯 Aktivität</h2>
         <label><input type="checkbox" id="a_fotografie"> <span>Fotografie</span></label>
-        <label><input type="checkbox" id="a_modellflug" checked> <span>Modellflug</span></label>
+        <label><input type="checkbox" id="a_modellflug"> <span>Modellflug</span></label><label><input type="checkbox" id="a_reiseunterlagen"> <span>Reiseunterlagen</span></label>
 
-        <div class="modelbox" id="modelbox">
+        <div class="modelbox" id="modelbox" style="display:none">
           <h3>Modellflug – Modell auswählen</h3>
           <label><input type="checkbox" class="model" value="Pitts"> <span>Pitts</span></label>
 <label><input type="checkbox" class="model" value="Carbon Cub"> <span>Carbon Cub</span></label>
@@ -116,7 +116,7 @@ button{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:poi
       </div>
     </aside>
 
-    <main class="results" id="results"></main>
+    <main class="results" id="results"><section class="section person-section"><div class="empty">📦 Bitte links Personen und Module auswählen.</div></section></main>
   </div>
 </div>
 
@@ -137,6 +137,7 @@ function selectedActivities(){
   if(document.getElementById('a_flugreise').checked) acts.add('Flugreise');
   if(document.getElementById('a_autoreise').checked) acts.add('Autoreise');
   if(document.getElementById('a_sommer').checked) { acts.add('Sommer / Sonne'); acts.add('Sommer'); }
+  if(document.getElementById('a_reiseunterlagen').checked) acts.add('Reiseunterlagen');
   return acts;
 }
 
@@ -144,7 +145,6 @@ function selectedPersons(){
   const arr = [];
   if(document.getElementById('p_manuela').checked) arr.push('Manuela');
   if(document.getElementById('p_loisl').checked) arr.push('Loisl');
-  arr.push('Gemeinsam');
   return arr;
 }
 
@@ -164,6 +164,7 @@ function includeItem(item, persons, acts){
   if(!persons.includes(p)) return false;
   const act = (item.activity || '').trim();
   if(!act) return true;
+  if(item.category === 'Reiseunterlagen' && !document.getElementById('a_reiseunterlagen').checked) return false;
   if(acts.has(act)) return true;
   if(act.includes('/') && act.split('/').some(a => acts.has(a.trim()))) return true;
   return false;
@@ -222,7 +223,7 @@ function render(){
     const catNames = Object.keys(cats).sort();
     out += `<section class="section person-section"><h2 class="person-title">${icons[p]} ${p}</h2>`;
     if(catNames.length === 0){
-      out += `<div class="empty">Keine passenden Einträge für diese Auswahl.</div>`;
+      
     } else {
       for(const cat of catNames){
         const arr = cats[cat];
@@ -236,7 +237,7 @@ function render(){
     out += `</section>`;
   }
 
-  document.getElementById('results').innerHTML = out;
+  if(!out.trim()){out='<section class="section person-section"><div class="empty">📦 Bitte links Personen und Module auswählen.</div></section>';} document.getElementById('results').innerHTML = out;
   /* summary entfernt */ [
     ...persons.filter(p=>p!=='Gemeinsam'),
     document.getElementById('days').value + ' Tage',
