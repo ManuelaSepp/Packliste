@@ -14,243 +14,373 @@
   --green:#7f9b82;
   --green-soft:#edf5ee;
   --shadow:0 14px 35px rgba(70,50,25,.10);
+  --manuela:#9b7bd1;
+  --loisl:#d71920;
+  --gemeinsam:#72c483;
+  --kamera:#e8c95a;
+  --modellflug:#3478d4;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text)}
 .page{max-width:1320px;margin:0 auto;padding:28px}
 .header{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px 28px;margin-bottom:18px;box-shadow:var(--shadow)}
 h1{margin:0;font-size:30px;text-align:center}
-.sub{color:var(--muted);font-size:14px}
 .layout{display:grid;grid-template-columns:360px 1fr;gap:22px;align-items:start}
 .panel,.section{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
-.panel{padding:20px;position:sticky;top:18px}
+.panel{padding:20px;position:sticky;top:18px;max-height:calc(100vh - 36px);overflow:auto}
 .block{padding:0 0 16px;margin-bottom:16px;border-bottom:1px solid var(--line)}
 .block:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
 h2{font-size:18px;margin:0 0 12px}
-h3{font-size:16px;margin:0 0 10px}
 label{display:flex;gap:10px;align-items:flex-start;margin:9px 0;line-height:1.25}
-input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);margin-top:1px}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);margin-top:1px;flex:0 0 auto}
 input[type=number]{width:90px;padding:9px 10px;border:1px solid var(--line);border-radius:12px;font-size:16px;background:white}
-small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
-.modelbox{display:none;border:1px dashed var(--line);background:#fffaf2;border-radius:16px;padding:12px;margin-top:10px}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 button{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:pointer}
 .primary{background:var(--green);color:white}
-.secondary{background:#e1d4bf;color:#2b241a}
 .ghost{background:white;border:1px solid var(--line);color:#2b241a}
 .results{display:flex;flex-direction:column;gap:18px}
 .person-section{padding:20px}
-.person-title{font-size:22px;margin:0 0 14px;display:flex;align-items:center;gap:8px}
-.category{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
-.category:first-of-type{border-top:0;margin-top:0;padding-top:0}
-.cat-title{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:17px;margin-bottom:8px}
-.count{font-size:12px;color:var(--muted);background:var(--green-soft);border:1px solid #d7e6d9;border-radius:999px;padding:3px 9px}
-.item{display:grid;grid-template-columns:24px 1fr;gap:8px;padding:8px 0;border-top:1px solid #eee5d8}
+.person-section.manuela{border-left:10px solid var(--manuela)}
+.person-section.loisl{border-left:10px solid var(--loisl)}
+.person-section.gemeinsam{border-left:10px solid var(--gemeinsam)}
+.person-section.kamera{border-left:10px solid var(--kamera)}
+.person-section.modellflug{border-left:10px solid var(--modellflug)}
+.person-title{font-size:22px;margin:0 0 14px}
+.cat-details{border-top:1px solid var(--line);padding:10px 0}
+.cat-details:first-of-type{border-top:0}
+.cat-summary{cursor:pointer;font-weight:800;font-size:17px;list-style:none}
+.cat-summary::-webkit-details-marker{display:none}
+.cat-summary::before{content:"▶ ";color:var(--muted)}
+.cat-details[open]>.cat-summary::before{content:"▼ "}
+.sub-details{margin:8px 0 0 18px;border-top:1px solid #eee5d8;padding-top:6px}
+.sub-summary{cursor:pointer;color:var(--muted);font-weight:700;font-size:14px;list-style:none}
+.sub-summary::-webkit-details-marker{display:none}
+.sub-summary::before{content:"▶ ";color:var(--muted)}
+.sub-details[open]>.sub-summary::before{content:"▼ "}
+.item{display:grid;grid-template-columns:24px 1fr;gap:8px;padding:8px 0;border-top:1px solid #eee5d8;margin-left:18px}
 .item:first-of-type{border-top:0}
-.note{color:var(--muted);font-size:12px;margin-top:2px}
-.empty{padding:18px;color:var(--muted);font-style:italic}
-.summary{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.pill{background:var(--green-soft);border:1px solid #d7e6d9;border-radius:999px;padding:7px 12px;font-size:13px}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.panel{position:static}}
-@media print{body{background:white}.panel,.header button,.actions{display:none}.page{padding:0}.section{box-shadow:none;break-inside:avoid}}
+.empty{padding:18px;color:var(--muted);font-style:italic;text-align:center}
+.badge{display:inline-block;border-radius:999px;background:var(--green-soft);border:1px solid #d7e6d9;color:#4f654f;font-size:12px;padding:2px 8px;margin-left:6px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.panel{position:static;max-height:none}}
+@media print{body{background:white}.panel,.actions{display:none}.page{padding:0}.section{box-shadow:none;break-inside:avoid}}
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="header">
-    <h1>Packliste</h1>
-    
-    
-  </div>
-
+  <div class="header"><h1>Packliste</h1></div>
   <div class="layout">
     <aside class="panel">
       <div class="block">
-        <h2>👥 Wer fährt mit?</h2>
-        <label><input type="checkbox" id="p_manuela"> <span>Manuela</span></label>
-        <label><input type="checkbox" id="p_loisl"> <span>Loisl</span></label>
+        <h2>Aktivitäten</h2>
+        <label><input type="checkbox" id="a_urlaub"> <span>Urlaub</span></label>
+        <label><input type="checkbox" id="a_fotografie"> <span>Fotografie</span></label>
+        <label><input type="checkbox" id="a_modellflug"> <span>Modellflug</span></label>
       </div>
 
       <div class="block">
-        <h2>🗓️ Zeit</h2>
+        <h2>Wer fährt mit?</h2>
+        <label><input type="checkbox" id="p_manuela"> <span>Manuela</span></label>
+        <label><input type="checkbox" id="p_loisl"> <span>Loisl</span></label>
+        <label><input type="checkbox" id="p_gemeinsam"> <span>Gemeinsam</span></label>
+      </div>
+
+      <div class="block">
+        <h2>Zeit</h2>
         <label style="align-items:center"><span>Tage</span><input type="number" id="days" value="7" min="1" max="60"></label>
       </div>
 
-      <div class="block">
-        <h2>📦 Basis</h2>
-        <label><input type="checkbox" id="a_urlaub"> <span>Urlaub</span></label>
-      </div>
-
-      <div class="block">
-        <h2>🚗 Reiseart</h2>
-        <label><input type="checkbox" id="a_flugreise"> <span>Flugreise</span></label>
-        <label><input type="checkbox" id="a_autoreise"> <span>Autoreise</span></label>
-      </div>
-
-      <div class="block">
-        <h2>🌦️ Saison</h2>
-        <label><input type="checkbox" id="a_sommer"> <span>Sommer / Sonne</span></label>
-      </div>
-
-      <div class="block">
-        <h2>🎯 Aktivität</h2>
-        <label><input type="checkbox" id="a_fotografie"> <span>Fotografie</span></label>
-        <label><input type="checkbox" id="a_modellflug"> <span>Modellflug</span></label><label><input type="checkbox" id="a_reiseunterlagen"> <span>Reiseunterlagen</span></label>
-
-        <div class="modelbox" id="modelbox" style="display:none">
-          <h3>Modellflug – Modell auswählen</h3>
-          <label><input type="checkbox" class="model" value="Pitts"> <span>Pitts</span></label>
-<label><input type="checkbox" class="model" value="Carbon Cub"> <span>Carbon Cub</span></label>
-<label><input type="checkbox" class="model" value="T28"> <span>T28</span></label>
-<label><input type="checkbox" class="model" value="Weißer Flieger"> <span>Weißer Flieger</span></label>
-<label><input type="checkbox" class="model" value="T-Rex 450"> <span>T-Rex 450</span></label>
-<label><input type="checkbox" class="model" value="Extra"> <span>Extra</span></label>
-<label><input type="checkbox" class="model" value="Goblin"> <span>Goblin</span></label>
-        </div>
-      </div>
-
       <div class="actions">
-        <button class="primary" onclick="render()">Packliste neu berechnen</button>
         <button class="ghost" onclick="resetChecks()">Haken zurücksetzen</button>
         <button class="ghost" onclick="window.print()">Drucken</button>
       </div>
     </aside>
 
-    <main class="results" id="results"><section class="section person-section"><div class="empty">📦 Bitte links Personen und Module auswählen.</div></section></main>
+    <main class="results" id="results">
+      <section class="section person-section"><div class="empty">Bitte links Personen und Module auswählen.</div></section>
+    </main>
   </div>
 </div>
 
 <script>
-const DB = {"items": [{"id": "item_1", "name": "Kamera", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_2", "name": "24–70 mm Objektiv", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_3", "name": "50 mm Objektiv", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_4", "name": "70–200 mm Objektiv", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_5", "name": "Speicherkarten", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_6", "name": "Akkus", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_7", "name": "Ladegeräte", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_8", "name": "Kartenlesegerät", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_9", "name": "Stativ", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_10", "name": "Externe Festplatte", "category": "Kamera", "person": "M", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_11", "name": "Carbon Cub", "category": "Modellbau", "person": "M", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_12", "name": "T28", "category": "Modellbau", "person": "M", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_13", "name": "Weißer Flieger", "category": "Modellbau", "person": "M", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_14", "name": "BHs", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_15", "name": "Unterhosen", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_16", "name": "Unterhemden", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_17", "name": "Socken", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_18", "name": "T-Shirts", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_19", "name": "Lange Hosen", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_20", "name": "Kurze Hosen", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_21", "name": "Jogginghose", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_22", "name": "Fleecejacke", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_23", "name": "Pullover", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_24", "name": "Kleider", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_25", "name": "Warme Jacke", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_26", "name": "Sonnenkappe", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_27", "name": "Bläuling (blaue Regenjacke)", "category": "Kleidung", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_28", "name": "Sandalen", "category": "Schuhe", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_29", "name": "Barfußschuhe", "category": "Schuhe", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_30", "name": "Zahnbürste", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_31", "name": "Zahnpasta", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_32", "name": "Bürste / Kamm", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_33", "name": "Shampoo", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_34", "name": "Duschgel", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_35", "name": "Deo", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_36", "name": "Gesichtscreme", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_37", "name": "Bodylotion", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_38", "name": "Haargummis", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_39", "name": "Haarklammern", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_40", "name": "Slipeinlagen", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_41", "name": "Haarturban", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_42", "name": "Enthaarungscreme", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_43", "name": "Rasierer", "category": "Bad / Pflege", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_44", "name": "Ibuprofen", "category": "Medikamente", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_45", "name": "Sinupret forte", "category": "Medikamente", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_46", "name": "Kamera", "category": "Kamera", "person": "L", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_47", "name": "100–400 mm Objektiv", "category": "Kamera", "person": "L", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_48", "name": "Speicherkarten", "category": "Kamera", "person": "L", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_49", "name": "Akkus", "category": "Kamera", "person": "L", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_50", "name": "Ladegeräte", "category": "Kamera", "person": "L", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "item_51", "name": "Pitts", "category": "Modellbau", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_52", "name": "Zugehörige Akkus", "category": "Modellbau", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_53", "name": "Flächentaschen mit Flächen", "category": "Modellbau", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_54", "name": "Verbindungsrohre", "category": "Modellbau", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_55", "name": "Tragflächenverbinder", "category": "Modellbau", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_56", "name": "Kleine Zubehörschachtel", "category": "Modellbau", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_57", "name": "T-Rex 450", "category": "Modellbau", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_58", "name": "Extra", "category": "Modellbau", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_59", "name": "Goblin", "category": "Modellbau", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_60", "name": "Unterhosen", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_61", "name": "Socken", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_62", "name": "T-Shirts", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_63", "name": "Lange Hosen", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_64", "name": "Kurze Hosen", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_65", "name": "Jogginghose", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_66", "name": "Fleecejacke", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_67", "name": "Pullover", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_68", "name": "Warme Jacke", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_69", "name": "Sonnenhut", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_70", "name": "Bläuling (blaue Regenjacke)", "category": "Kleidung", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_71", "name": "Sandalen", "category": "Schuhe", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_72", "name": "Zahnbürste", "category": "Bad / Pflege", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_73", "name": "Zahnpasta", "category": "Bad / Pflege", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_74", "name": "Bürste / Kamm", "category": "Bad / Pflege", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_75", "name": "Shampoo", "category": "Bad / Pflege", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_76", "name": "Duschgel", "category": "Bad / Pflege", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_77", "name": "Deo", "category": "Bad / Pflege", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_78", "name": "Rasierer", "category": "Bad / Pflege", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_79", "name": "Caramlo", "category": "Medikamente", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_80", "name": "Metformin", "category": "Medikamente", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_81", "name": "ASS 100", "category": "Medikamente", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_82", "name": "L-Thyroxin", "category": "Medikamente", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_83", "name": "Personalausweis", "category": "Dokumente", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Ja"}, {"id": "item_84", "name": "Führerschein", "category": "Dokumente", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Ja"}, {"id": "item_85", "name": "Krankenkassenkarte", "category": "Dokumente", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Ja"}, {"id": "item_86", "name": "EC-Karte", "category": "Dokumente", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Ja"}, {"id": "item_87", "name": "Reiseunterlagen", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_88", "name": "Flugtickets", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_89", "name": "Fährtickets", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_90", "name": "Voucher", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_91", "name": "Bordunterlagen", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_92", "name": "Check-in-Unterlagen", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_93", "name": "Tickets auf dem Handy vorhanden", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_94", "name": "Check-in durchgeführt", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_95", "name": "Bordkarten gespeichert", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_96", "name": "Offline verfügbar / Screenshots vorhanden", "category": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "item_97", "name": "Ibuprofen", "category": "Reiseapotheke / Schutz", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_98", "name": "Sinupret forte", "category": "Reiseapotheke / Schutz", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_99", "name": "BoxaGrippal", "category": "Reiseapotheke / Schutz", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_100", "name": "Imodium akut lingual", "category": "Reiseapotheke / Schutz", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_101", "name": "Voltaren-Creme", "category": "Reiseapotheke / Schutz", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_102", "name": "DM Sensitiv Sonnencreme LSF 50", "category": "Reiseapotheke / Schutz", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_103", "name": "Anti Brumm", "category": "Reiseapotheke / Schutz", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_104", "name": "Aftersun", "category": "Reiseapotheke / Schutz", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_105", "name": "Werkzeugkasten", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_106", "name": "Netzteile", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_107", "name": "Ladegeräte", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_108", "name": "Verlängerungskabel", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_109", "name": "Mehrfachsteckdose", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_110", "name": "Ersatzteile", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_111", "name": "Schraubenzieher", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_112", "name": "Schere", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_113", "name": "Skalpell", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_114", "name": "Sekundenkleber", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_115", "name": "Aktivator", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_116", "name": "Doppelseitiges Klebeband", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_117", "name": "Klettband", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_118", "name": "Schrumpfschlauch", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_119", "name": "Kabelbinder", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_120", "name": "Schrauben", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_121", "name": "Muttern", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_122", "name": "Beilagscheiben", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_123", "name": "Versicherungsnachweis", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Pflicht", "always": "Nein"}, {"id": "item_124", "name": "Kenntnisnachweis", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Pflicht", "always": "Nein"}, {"id": "item_125", "name": "DM Sensitiv Sonnencreme LSF 50", "category": "Modellbau", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "item_126", "name": "Nagelschere", "category": "Bad / Pflege", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_127", "name": "Nagelfeile", "category": "Bad / Pflege", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_128", "name": "Pinzette", "category": "Bad / Pflege", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_129", "name": "Rei in der Tube", "category": "Allgemeine Reisehelfer", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_130", "name": "Wäschebeutel für Schmutzwäsche", "category": "Allgemeine Reisehelfer", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_131", "name": "Taschentücher", "category": "Allgemeine Reisehelfer", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_132", "name": "Streichhölzer", "category": "Allgemeine Reisehelfer", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Ja"}, {"id": "item_133", "name": "Handy Manuela", "category": "Technik", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_134", "name": "Handy Loisl", "category": "Technik", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_135", "name": "Ladekabel Handy", "category": "Technik", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_136", "name": "USB-C-Kabel", "category": "Technik", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_137", "name": "Ladestation Uhr", "category": "Technik", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_138", "name": "Mehrfachstecker", "category": "Technik", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_139", "name": "Laptop", "category": "Technik", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "item_140", "name": "Laptop-Ladekabel", "category": "Technik", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}], "models": [{"id": "model_1", "model": "Pitts", "name": "Pitts", "note": "Hauptmodell"}, {"id": "model_2", "model": "Pitts", "name": "Zugehörige Akkus", "note": "automatisch bei Pitts"}, {"id": "model_3", "model": "Pitts", "name": "Flächentaschen mit Flächen", "note": "nicht nur Tasche, Flächen müssen enthalten sein"}, {"id": "model_4", "model": "Pitts", "name": "Verbindungsrohre", "note": "automatisch bei Pitts"}, {"id": "model_5", "model": "Pitts", "name": "Tragflächenverbinder", "note": "automatisch bei Pitts"}, {"id": "model_6", "model": "Pitts", "name": "Kleine Zubehörschachtel", "note": "automatisch bei Pitts"}, {"id": "model_7", "model": "Carbon Cub", "name": "Carbon Cub", "note": "noch ohne Detailzubehör"}, {"id": "model_8", "model": "T28", "name": "T28", "note": "noch ohne Detailzubehör"}, {"id": "model_9", "model": "Weißer Flieger", "name": "Weißer Flieger", "note": "noch ohne Detailzubehör"}, {"id": "model_10", "model": "T-Rex 450", "name": "T-Rex 450", "note": "noch ohne Detailzubehör"}, {"id": "model_11", "model": "Extra", "name": "Extra", "note": "noch ohne Detailzubehör"}, {"id": "model_12", "model": "Goblin", "name": "Goblin", "note": "noch ohne Detailzubehör"}]};
+const DB = {"items": [{"id": "M-MOD-001", "category": "Modellbau", "sub": "Flugmodelle Manuela", "name": "Carbon Cub", "person": "M", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "M-MOD-002", "category": "Modellbau", "sub": "Flugmodelle Manuela", "name": "T28", "person": "M", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "M-MOD-003", "category": "Modellbau", "sub": "Flugmodelle Manuela", "name": "Timber", "person": "M", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-001", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "BHs", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-002", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Unterhosen", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-003", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Unterhemden", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-004", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Socken", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-005", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "T-Shirts", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-006", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Lange Hosen", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-007", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Kurze Hosen", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-008", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Jogginghose", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-009", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Fleecejacke", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-010", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Pullover", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-011", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Kleider", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-012", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Warme Jacke", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-013", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Sonnenkappe", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-KLE-014", "category": "Kleidung", "sub": "Kleidung Manuela", "name": "Bläuling (blaue Regenjacke)", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-SCH-001", "category": "Schuhe", "sub": "Schuhe Manuela", "name": "Sandalen", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-SCH-002", "category": "Schuhe", "sub": "Schuhe Manuela", "name": "Barfußschuhe", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-001", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Zahnbürste", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-002", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Zahnpasta", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-003", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Bürste / Kamm", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-004", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Shampoo", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-005", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Duschgel", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-006", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Deo", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-007", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Gesichtscreme", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-008", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Bodylotion", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-009", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Haargummis", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-010", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Haarklammern", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-011", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Slipeinlagen", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-012", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Haarturban", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-013", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Enthaarungscreme", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-BAD-014", "category": "Bad / Pflege", "sub": "Bad Manuela", "name": "Rasierer", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-MED-001", "category": "Medikamente", "sub": "Medikamente Manuela", "name": "Ibuprofen", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "M-MED-002", "category": "Medikamente", "sub": "Medikamente Manuela", "name": "Sinupret forte", "person": "M", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-PIT-001", "category": "Modellbau", "sub": "Flugmodelle Loisl / Pitts", "name": "Pitts S2B", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-PIT-002", "category": "Modellbau", "sub": "Flugmodelle Loisl / Pitts", "name": "Flugakkus 2x 6S7500", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-PIT-003", "category": "Modellbau", "sub": "Flugmodelle Loisl / Pitts", "name": "Ladekabel 2x XT90", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-PIT-004", "category": "Modellbau", "sub": "Flugmodelle Loisl / Pitts", "name": "RX-Akku 1x 3S3000", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-PIT-005", "category": "Modellbau", "sub": "Flugmodelle Loisl / Pitts", "name": "Ladekabel 4mm", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-PIT-006", "category": "Modellbau", "sub": "Flugmodelle Loisl / Pitts", "name": "FT mit 4 Flächen, 2 Rohren, 2 Verbindern", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-PIT-007", "category": "Modellbau", "sub": "Flugmodelle Loisl / Pitts", "name": "Kleine Zubehörschachtel", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-REX-001", "category": "Modellbau", "sub": "Flugmodelle Loisl / T-Rex 450", "name": "T-Rex 450", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-REX-002", "category": "Modellbau", "sub": "Flugmodelle Loisl / T-Rex 450", "name": "Flugakkus 2x 3S2400", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-REX-003", "category": "Modellbau", "sub": "Flugmodelle Loisl / T-Rex 450", "name": "Ladekabel 2x 4mm", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-EXT-001", "category": "Modellbau", "sub": "Flugmodelle Loisl / Extra NG", "name": "Extra NG", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-EXT-002", "category": "Modellbau", "sub": "Flugmodelle Loisl / Extra NG", "name": "Flugakkus 2x 6S5000", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-EXT-003", "category": "Modellbau", "sub": "Flugmodelle Loisl / Extra NG", "name": "Ladekabel 2x XT90", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-EXT-004", "category": "Modellbau", "sub": "Flugmodelle Loisl / Extra NG", "name": "FT mit 2 Flächen, ein Rohr", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-GOB-001", "category": "Modellbau", "sub": "Flugmodelle Loisl / Goblin 770", "name": "Goblin 770", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-GOB-002", "category": "Modellbau", "sub": "Flugmodelle Loisl / Goblin 770", "name": "Flugakkus 2x 12S4500", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-MOD-GOB-003", "category": "Modellbau", "sub": "Flugmodelle Loisl / Goblin 770", "name": "Ladekabel 2x 5,5mm", "person": "L", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-001", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Unterhosen", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-002", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Socken", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-003", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "T-Shirts", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-004", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Lange Hosen", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-005", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Kurze Hosen", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-006", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Jogginghose", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-007", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Fleecejacke", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-008", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Pullover", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-009", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Warme Jacke", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-010", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Sonnenhut", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-KLE-011", "category": "Kleidung", "sub": "Kleidung Loisl", "name": "Bläuling (blaue Regenjacke)", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-SCH-001", "category": "Schuhe", "sub": "Schuhe Loisl", "name": "Sandalen", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-SCH-002", "category": "Schuhe", "sub": "Schuhe Loisl", "name": "Turnschuhe", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-BAD-001", "category": "Bad / Pflege", "sub": "Bad Loisl", "name": "Zahnbürste", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-BAD-002", "category": "Bad / Pflege", "sub": "Bad Loisl", "name": "Zahnpasta", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-BAD-003", "category": "Bad / Pflege", "sub": "Bad Loisl", "name": "Bürste / Kamm", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-BAD-004", "category": "Bad / Pflege", "sub": "Bad Loisl", "name": "Shampoo", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-BAD-005", "category": "Bad / Pflege", "sub": "Bad Loisl", "name": "Duschgel", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-BAD-006", "category": "Bad / Pflege", "sub": "Bad Loisl", "name": "Deo", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-BAD-007", "category": "Bad / Pflege", "sub": "Bad Loisl", "name": "Rasierer", "person": "L", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "L-MED-001", "category": "Medikamente", "sub": "Pflichtmedikamente Loisl", "name": "Caramlo", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "L-MED-002", "category": "Medikamente", "sub": "Pflichtmedikamente Loisl", "name": "Metformin", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "L-MED-003", "category": "Medikamente", "sub": "Pflichtmedikamente Loisl", "name": "ASS 100", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "L-MED-004", "category": "Medikamente", "sub": "Pflichtmedikamente Loisl", "name": "L-Thyroxin", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "L-MED-005", "category": "Medikamente", "sub": "Pflichtmedikamente Loisl", "name": "Ezetimib", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "L-MED-006", "category": "Medikamente", "sub": "Pflichtmedikamente Loisl", "name": "Atorvastatin", "person": "L", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-DOK-001", "category": "Dokumente", "sub": "Dokumente", "name": "Personalausweis", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Ja"}, {"id": "G-DOK-002", "category": "Dokumente", "sub": "Dokumente", "name": "Führerschein", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Ja"}, {"id": "G-DOK-003", "category": "Dokumente", "sub": "Dokumente", "name": "Krankenkassenkarte", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Ja"}, {"id": "G-DOK-004", "category": "Dokumente", "sub": "Dokumente", "name": "EC-Karte", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Ja"}, {"id": "G-REI-001", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Reiseunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-REI-002", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Flugtickets", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-REI-003", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Fährtickets", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-REI-004", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Voucher", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-REI-005", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Bordunterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-REI-006", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Check-in-Unterlagen", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-REI-007", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Tickets auf dem Handy vorhanden", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-REI-008", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Check-in durchgeführt", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-REI-009", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Bordkarten gespeichert", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-REI-010", "category": "Reiseunterlagen", "sub": "Reiseunterlagen / Vor Abreise", "name": "Offline verfügbar / Screenshots vorhanden", "person": "G", "activity": "Urlaub", "required": "Pflicht", "always": "Nein"}, {"id": "G-APO-001", "category": "Reiseapotheke / Schutz", "sub": "Gesundheit & Schutz", "name": "Ibuprofen", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-APO-002", "category": "Reiseapotheke / Schutz", "sub": "Gesundheit & Schutz", "name": "Sinupret forte", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-APO-003", "category": "Reiseapotheke / Schutz", "sub": "Gesundheit & Schutz", "name": "BoxaGrippal", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-APO-004", "category": "Reiseapotheke / Schutz", "sub": "Gesundheit & Schutz", "name": "Imodium akut lingual", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-APO-005", "category": "Reiseapotheke / Schutz", "sub": "Gesundheit & Schutz", "name": "Voltaren-Creme", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-APO-006", "category": "Reiseapotheke / Schutz", "sub": "Gesundheit & Schutz", "name": "DM Sensitiv Sonnencreme LSF 50", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-APO-007", "category": "Reiseapotheke / Schutz", "sub": "Gesundheit & Schutz", "name": "Pflaster", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-APO-008", "category": "Reiseapotheke / Schutz", "sub": "Gesundheit & Schutz", "name": "Anti Brumm", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-APO-009", "category": "Reiseapotheke / Schutz", "sub": "Gesundheit & Schutz", "name": "Aftersun", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-MIT-001", "category": "Modellbau", "sub": "Mitnehmen", "name": "Ladekoffer", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-LK-001", "category": "Modellbau", "sub": "LK prüfen", "name": "Netzteile", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-LK-002", "category": "Modellbau", "sub": "LK prüfen", "name": "Pulsar Lader", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-LK-003", "category": "Modellbau", "sub": "LK prüfen", "name": "Ladekabel siehe Modell", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-MIT-002", "category": "Modellbau", "sub": "Mitnehmen", "name": "Senderkoffer Manu", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-SKM-001", "category": "Modellbau", "sub": "SKM prüfen", "name": "Sendergurt", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-SKM-002", "category": "Modellbau", "sub": "SKM prüfen", "name": "Versicherungs und Kenntnisnachweis", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-MIT-003", "category": "Modellbau", "sub": "Mitnehmen", "name": "Senderkoffer Loisl", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-SKL-001", "category": "Modellbau", "sub": "SKL prüfen", "name": "Versicherungs und Kenntnisnachweis", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-SKL-002", "category": "Modellbau", "sub": "SKL prüfen", "name": "Sendergurt", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-SKL-003", "category": "Modellbau", "sub": "SKL prüfen", "name": "Sonnenbrille", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-SKL-004", "category": "Modellbau", "sub": "SKL prüfen", "name": "Zettel und Stifte", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-MIT-004", "category": "Modellbau", "sub": "Mitnehmen", "name": "Kiste Zubehör", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "VIRT-MIT-FPA", "category": "Modellbau", "sub": "Mitnehmen", "name": "Flugplatzausrüstung", "person": "G", "activity": "Modellflug", "required": "", "always": ""}, {"id": "G-MOD-KIZ-001", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Verlängerungskabel", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-KIZ-002", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Mehrfachsteckdose", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-KIZ-003", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Ersatzteile", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-KIZ-004", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Ladegeräte", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-KIZ-005", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Netzteile", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-KIZ-006", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Werkzeugkasten", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-001", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Schraubenzieher", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-002", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Pflaster", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-003", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Schere", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-004", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Skalpell + Klingen", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-005", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Sekundenkleber", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-006", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Aktivator", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-007", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Doppelseitiges Klebeband", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-008", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Klettband", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-009", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Schrumpfschlauch", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-010", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Kabelbinder", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-011", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Schrauben", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-012", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Muttern", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-WK-013", "category": "Modellbau", "sub": "Kiste Zubehör Inhalt", "name": "Beilagscheiben", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-BAD-001", "category": "Bad / Pflege", "sub": "Bad-Zubehör", "name": "Nagelschere", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-BAD-002", "category": "Bad / Pflege", "sub": "Bad-Zubehör", "name": "Nagelfeile", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-BAD-003", "category": "Bad / Pflege", "sub": "Bad-Zubehör", "name": "Pinzette", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-HEL-001", "category": "Allgemeine Reisehelfer", "sub": "Immer / Reisehelfer", "name": "Rei in der Tube", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-HEL-002", "category": "Allgemeine Reisehelfer", "sub": "Immer / Reisehelfer", "name": "Wäschebeutel für Schmutzwäsche", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-HEL-003", "category": "Allgemeine Reisehelfer", "sub": "Immer / Reisehelfer", "name": "Taschentücher", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-HEL-004", "category": "Allgemeine Reisehelfer", "sub": "Immer / Reisehelfer", "name": "Streichhölzer", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Ja"}, {"id": "G-TEC-001", "category": "Technik", "sub": "Technik gemeinsam", "name": "Handy Manuela", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-TEC-002", "category": "Technik", "sub": "Technik gemeinsam", "name": "Handy Loisl", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-TEC-003", "category": "Technik", "sub": "Technik gemeinsam", "name": "Ladekabel Handy", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-TEC-004", "category": "Technik", "sub": "Technik gemeinsam", "name": "USB-C-Kabel", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-TEC-005", "category": "Technik", "sub": "Technik gemeinsam", "name": "Ladestation Uhr", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-TEC-006", "category": "Technik", "sub": "Technik gemeinsam", "name": "Mehrfachstecker", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-TEC-007", "category": "Technik", "sub": "Technik gemeinsam", "name": "Laptop", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-TEC-008", "category": "Technik", "sub": "Technik gemeinsam", "name": "Laptop-Ladekabel", "person": "G", "activity": "Urlaub", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-FPA-001", "category": "Modellbau", "sub": "Flugplatzausrüstung", "name": "Sonnencreme", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-FPA-002", "category": "Modellbau", "sub": "Flugplatzausrüstung", "name": "Sonnenbrille", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-FPA-003", "category": "Modellbau", "sub": "Flugplatzausrüstung", "name": "Sonnenhüte Käppi", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-FPA-004", "category": "Modellbau", "sub": "Flugplatzausrüstung", "name": "Stühle", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-FPA-005", "category": "Modellbau", "sub": "Flugplatzausrüstung", "name": "Trinken", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-FPA-006", "category": "Modellbau", "sub": "Flugplatzausrüstung", "name": "Brotzeit", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "G-MOD-FPA-007", "category": "Modellbau", "sub": "Flugplatzausrüstung", "name": "Feuchttücher", "person": "G", "activity": "Modellflug", "required": "Optional", "always": "Nein"}, {"id": "VIRT-MIT-Carbon Cub", "category": "Modellbau", "sub": "Mitnehmen", "name": "Carbon Cub", "person": "M", "activity": "Modellflug", "required": "", "always": ""}, {"id": "VIRT-MIT-T28", "category": "Modellbau", "sub": "Mitnehmen", "name": "T28", "person": "M", "activity": "Modellflug", "required": "", "always": ""}, {"id": "VIRT-MIT-Timber", "category": "Modellbau", "sub": "Mitnehmen", "name": "Timber", "person": "M", "activity": "Modellflug", "required": "", "always": ""}, {"id": "VIRT-MIT-Pitts S2B", "category": "Modellbau", "sub": "Mitnehmen", "name": "Pitts S2B", "person": "L", "activity": "Modellflug", "required": "", "always": ""}, {"id": "VIRT-MIT-T-Rex 450", "category": "Modellbau", "sub": "Mitnehmen", "name": "T-Rex 450", "person": "L", "activity": "Modellflug", "required": "", "always": ""}, {"id": "VIRT-MIT-Extra NG", "category": "Modellbau", "sub": "Mitnehmen", "name": "Extra NG", "person": "L", "activity": "Modellflug", "required": "", "always": ""}, {"id": "VIRT-MIT-Goblin 770", "category": "Modellbau", "sub": "Mitnehmen", "name": "Goblin 770", "person": "L", "activity": "Modellflug", "required": "", "always": ""}, {"id": "G-KAM-MIT-001", "category": "Kamera", "sub": "Mitnehmen", "name": "Rucksack", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-MIT-002", "category": "Kamera", "sub": "Mitnehmen", "name": "Stativ", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-001", "category": "Kamera", "sub": "Rucksack", "name": "Kamera", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-002", "category": "Kamera", "sub": "Rucksack", "name": "50 mm Objektiv", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-003", "category": "Kamera", "sub": "Rucksack", "name": "70–200 mm Objektiv", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-004", "category": "Kamera", "sub": "Rucksack", "name": "100–400 mm Objektiv", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-005", "category": "Kamera", "sub": "Rucksack", "name": "Kartenlesegerät", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-006", "category": "Kamera", "sub": "Rucksack", "name": "24–70 mm Objektiv", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-007", "category": "Kamera", "sub": "Rucksack", "name": "Externe Festplatte", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-008", "category": "Kamera", "sub": "Rucksack", "name": "Speicherkarten", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-009", "category": "Kamera", "sub": "Rucksack", "name": "Akkus", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}, {"id": "G-KAM-010", "category": "Kamera", "sub": "Rucksack", "name": "Ladegeräte", "person": "G", "activity": "Fotografie", "required": "Optional", "always": "Nein"}]};
 
-const personAliases = {
-  "M":"Manuela","Manuela":"Manuela",
-  "L":"Loisl","Loisl":"Loisl",
-  "G":"Gemeinsam","Gemeinsam":"Gemeinsam","Alle":"Gemeinsam","A":"Gemeinsam","":"Gemeinsam"
-};
-
-function selectedActivities(){
-  const acts = new Set();
-  if(document.getElementById('a_urlaub').checked) acts.add('Urlaub');
-  if(document.getElementById('a_fotografie').checked) acts.add('Fotografie');
-  if(document.getElementById('a_modellflug').checked) acts.add('Modellflug');
-  if(document.getElementById('a_flugreise').checked) acts.add('Flugreise');
-  if(document.getElementById('a_autoreise').checked) acts.add('Autoreise');
-  if(document.getElementById('a_sommer').checked) { acts.add('Sommer / Sonne'); acts.add('Sommer'); }
-  if(document.getElementById('a_reiseunterlagen').checked) acts.add('Reiseunterlagen');
-  return acts;
-}
+const personAliases = {"M":"Manuela","L":"Loisl","G":"Gemeinsam","Manuela":"Manuela","Loisl":"Loisl","Gemeinsam":"Gemeinsam"};
+const sectionClass = {"Manuela":"manuela","Loisl":"loisl","Gemeinsam":"gemeinsam","Kamera":"kamera","Modellflug":"modellflug"};
+const sectionOrder = ['Manuela','Loisl','Gemeinsam','Kamera','Modellflug'];
+let selectedModels = new Set();
+let checkedItems = new Set();
+const categoryOrder = ['Kleidung','Schuhe','Bad / Pflege','Medikamente','Dokumente','Reiseunterlagen','Reiseapotheke / Schutz','Allgemeine Reisehelfer','Technik','Kamera','Modelle','Modellbau-Zubehör'];
+const modellbauSubOrder = ['LK prüfen','SKM prüfen','SKL prüfen','Kiste Zubehör Inhalt','Kiste Zubehör Inhalt','Flugplatzausrüstung','Flugplatz','Mitnehmen'];
 
 function selectedPersons(){
-  const arr = [];
+  const gemeinsam = document.getElementById('p_gemeinsam').checked;
+  const arr=[];
+
+  if(gemeinsam){
+    document.getElementById('p_manuela').checked = true;
+    document.getElementById('p_loisl').checked = true;
+  }
+
   if(document.getElementById('p_manuela').checked) arr.push('Manuela');
   if(document.getElementById('p_loisl').checked) arr.push('Loisl');
+  if(gemeinsam) arr.push('Gemeinsam');
+
   return arr;
 }
 
-function qtyText(name){
-  const days = parseInt(document.getElementById('days').value || '1',10);
-  const n = name.toLowerCase();
-  if(n.includes('unterhose') || n.includes('socke') || n.includes('t-shirt')) return (days+1) + ' × ' + name;
-  if(n.includes('zahnbürste') || n.includes('zahnbuerste')) {
-    const count = (document.getElementById('p_manuela').checked?1:0)+(document.getElementById('p_loisl').checked?1:0);
-    return count > 1 ? count + ' × ' + name : name;
-  }
-  return name;
+function isModelItem(item){
+  return item.category === 'Modellbau' && (item.sub || '').toLowerCase().startsWith('flugmodelle');
 }
 
-function includeItem(item, persons, acts){
-  let p = personAliases[item.person] || item.person || 'Gemeinsam';
-  if(!persons.includes(p)) return false;
-  const act = (item.activity || '').trim();
-  if(!act) return true;
-  if(item.category === 'Reiseunterlagen' && !document.getElementById('a_reiseunterlagen').checked) return false;
-  if(acts.has(act)) return true;
-  if(act.includes('/') && act.split('/').some(a => acts.has(a.trim()))) return true;
-  return false;
+function isModelSelectRow(item){
+  // MASTERREGEL:
+  // Nur Datensätze mit ID-Endung -001 sind Modelle.
+  return /-001$/.test(item.id || '');
+}
+
+function modelName(item){
+  if((item.sub || '').includes('/')) return item.sub.split('/').slice(1).join('/').trim();
+  return item.name;
+}
+
+function normalizeModelKey(s){
+  return (s || '').toLowerCase().replace(/\s+/g,' ').trim();
+}
+
+function isVirtualMitnehmenModel(item){
+  return item.category === 'Modellbau'
+    && item.sub === 'Mitnehmen'
+    && (item.id || '').startsWith('VIRT-MIT-')
+    && item.name !== 'Flugplatzausrüstung';
+}
+
+function modelGroupKey(item){
+  if(!isModelItem(item)) return "";
+  return modelName(item);
+}
+
+function selectedModelKeys(){
+  const selected = new Set();
+  for(const item of DB.items){
+    if(!isModelItem(item)) continue;
+    if(isModelSelectRow(item)) continue;
+    if(checkedItems.has(item.id)){
+      selected.add(modelGroupKey(item));
+    }
+  }
+  return Array.from(selected).map(normalizeModelKey);
+}
+
+function toggleItemChecked(itemId, checked){
+  if(checked) checkedItems.add(itemId);
+  else checkedItems.delete(itemId);
+
+  const item = DB.items.find(it => it.id === itemId);
+
+  // Nur Modell-Zubehör beeinflusst die automatisch erzeugte Mitnehmen-Liste.
+  // Normale Packlisten-Haken dürfen keinen kompletten Neuaufbau auslösen.
+  if(item && isModelItem(item)){
+    render();
+  }
+}
+
+function qtyText(item){
+  const days=parseInt(document.getElementById('days').value || '1',10);
+  const n=item.name.toLowerCase();
+  if(n.includes('unterhose') || n.includes('socke')) return days + ' × ' + item.name;
+  if(n.includes('t-shirt')) return (days+1) + ' × ' + item.name;
+  return item.name;
+}
+
+function includeItem(item, persons){
+  const owner = personAliases[item.person] || item.person || 'Gemeinsam';
+
+  if(isVirtualMitnehmenModel(item)){
+    if(!document.getElementById('a_modellflug').checked) return false;
+    return selectedModelKeys().includes(normalizeModelKey(item.name));
+  }
+
+  if(item.category === 'Modellbau') return document.getElementById('a_modellflug').checked;
+  if(item.category === 'Kamera') return document.getElementById('a_fotografie').checked;
+
+  // Urlaub ist ein eigener Modus.
+  // Dadurch kann man z.B. nur zum Flugplatz fahren, ohne Unterhosen/Zahnbürste/etc. in der Liste zu haben.
+  if(item.activity === 'Urlaub') return document.getElementById('a_urlaub').checked && persons.includes(owner);
+
+  return persons.includes(owner);
+}
+
+function displaySection(item){
+  if(item.category === 'Modellbau') return 'Modellflug';
+  if(item.category === 'Kamera') return 'Kamera';
+  return personAliases[item.person] || item.person || 'Gemeinsam';
+}
+
+function displayCategory(item){
+  if(isModelItem(item)) return 'Modelle';
+  if(item.category === 'Modellbau') return 'Modellbau-Zubehör';
+  return item.category || 'Sonstiges';
+}
+
+function prettySub(sub){
+  const map = {
+    'LK prüfen':'Ladekoffer Inhalt',
+    'SKM prüfen':'Senderkoffer Manuela Inhalt',
+    'SKL prüfen':'Senderkoffer Loisl Inhalt',
+    'Kiste Zubehör Inhalt':'Kiste Zubehör Inhalt',
+    'Kiste Zubehör Inhalt':'Werkzeugkasten Inhalt',
+    'Flugplatz':'Flugplatzausrüstung',
+    'Flugplatzausrüstung':'Flugplatzausrüstung',
+    'Mitnehmen':'Mitnehmen'
+  };
+  return map[sub] || sub;
+}
+
+function displaySub(item){
+  if(isModelItem(item)) return modelName(item);
+  if(item.category === 'Modellbau') return item.sub || '';
+  if(item.category === 'Kamera') return item.sub || '';
+  return '';
+}
+
+function sortCategories(names){
+  return names.sort((a,b)=>{
+    const ia=categoryOrder.indexOf(a), ib=categoryOrder.indexOf(b);
+    if(ia===-1 && ib===-1) return a.localeCompare(b,'de');
+    if(ia===-1) return 1;
+    if(ib===-1) return -1;
+    return ia-ib;
+  });
+}
+
+function sortSubs(names, category){
+  if(category === 'Kamera'){
+    const kameraSubOrder = ['Rucksack','Mitnehmen'];
+    return names.sort((a,b)=>{
+      const ia=kameraSubOrder.indexOf(a), ib=kameraSubOrder.indexOf(b);
+      if(ia===-1 && ib===-1) return a.localeCompare(b,'de');
+      if(ia===-1) return 1;
+      if(ib===-1) return -1;
+      return ia-ib;
+    });
+  }
+  if(category !== 'Modellbau-Zubehör') return names.sort((a,b)=>a.localeCompare(b,'de'));
+  return names.sort((a,b)=>{
+    const ia=modellbauSubOrder.indexOf(a), ib=modellbauSubOrder.indexOf(b);
+    if(ia===-1 && ib===-1) return a.localeCompare(b,'de');
+    if(ia===-1) return 1;
+    if(ib===-1) return -1;
+    return ia-ib;
+  });
 }
 
 function groupItems(items){
-  const grouped = {};
+  const grouped={};
   for(const it of items){
-    const p = personAliases[it.person] || it.person || 'Gemeinsam';
-    const cat = it.category || 'Sonstiges';
-    grouped[p] ??= {};
-    grouped[p][cat] ??= [];
-    grouped[p][cat].push(it);
+    const sec=displaySection(it);
+    const cat=displayCategory(it);
+    const sub=displaySub(it);
+    grouped[sec] ??= {};
+    grouped[sec][cat] ??= {};
+    grouped[sec][cat][sub] ??= [];
+    grouped[sec][cat][sub].push(it);
   }
   return grouped;
 }
 
+
+function rememberOpenDetails(){
+  return Array.from(document.querySelectorAll('#results details[open]'))
+    .map(d => {
+      const s = d.querySelector('summary');
+      return s ? s.textContent.trim() : '';
+    })
+    .filter(Boolean);
+}
+
+function restoreOpenDetails(openTitles){
+  if(!openTitles || openTitles.length === 0) return;
+  document.querySelectorAll('#results details').forEach(d => {
+    const s = d.querySelector('summary');
+    if(s && openTitles.includes(s.textContent.trim())) d.open = true;
+  });
+}
+
 function render(){
-  const persons = selectedPersons();
-  const acts = selectedActivities();
-
-  const modelbox = document.getElementById('modelbox');
-  const modellflugAktiv = document.getElementById('a_modellflug').checked;
-  modelbox.style.display = modellflugAktiv ? 'block' : 'none';
-  if(!modellflugAktiv){
-    document.querySelectorAll('.model').forEach(cb => cb.checked = false);
-  }
-
-  const chosenModels = Array.from(document.querySelectorAll('.model:checked')).map(x=>x.value);
-
-  const filtered = DB.items.filter(it => includeItem(it, persons, acts));
-
-  for(const m of DB.models){
-    if(chosenModels.includes(m.model)){
-      filtered.push({
-        id:m.id,
-        name:m.name,
-        category:'Modellflug – ' + m.model,
-        person:'Loisl',
-        activity:'Modellflug',
-        required:'',
-        always:'',
-        note:m.note || ''
-      });
-    }
-  }
-
+  const openDetails = rememberOpenDetails();
+  const persons=selectedPersons();
+  const filtered = DB.items.filter(it => includeItem(it, persons));
   const grouped = groupItems(filtered);
-  const order = ['Manuela','Loisl','Gemeinsam'];
-  const icons = {'Manuela':'👩','Loisl':'👨','Gemeinsam':'🤝'};
 
-  let out = '';
-  for(const p of order){
-    if(!persons.includes(p)) continue;
-    const cats = grouped[p] || {};
-    const catNames = Object.keys(cats).sort();
-    out += `<section class="section person-section"><h2 class="person-title">${icons[p]} ${p}</h2>`;
-    if(catNames.length === 0){
-      
-    } else {
-      for(const cat of catNames){
-        const arr = cats[cat];
-        out += `<div class="category"><div class="cat-title"><span>${cat}</span></div>`;
-        for(const it of arr){
-          out += `<label class="item"><input type="checkbox"><span>${qtyText(it.name)}</span></label>`;
+  let out='';
+  for(const section of sectionOrder){
+    const cats=grouped[section] || {};
+    const catNames=sortCategories(Object.keys(cats));
+    if(catNames.length===0) continue;
+
+    const cls=sectionClass[section] || '';
+    out += `<section class="section person-section ${cls}"><h2 class="person-title">${section}</h2>`;
+    for(const cat of catNames){
+      const subs = cats[cat];
+
+      // Kamera hat keine zusätzliche Kategorie-Zwischenebene.
+      // In der Kamera-Karte werden Rucksack und Mitnehmen direkt angezeigt.
+      if(section === 'Kamera' && cat === 'Kamera'){
+        for(const sub of sortSubs(Object.keys(subs), cat)){
+          if(sub){
+            out += `<details class="cat-details"><summary class="cat-summary">${prettySub(sub)}</summary>`;
+          }
+          for(const it of subs[sub]){
+            const badge = it.required === 'Pflicht' ? '<span class="badge">Pflicht</span>' : '';
+            const checked = checkedItems.has(it.id) ? ' checked' : '';
+            out += `<label class="item"><input type="checkbox"${checked} onchange="toggleItemChecked('${it.id.replace(/'/g,"\\'")}', this.checked)"><span>${qtyText(it)}${badge}</span></label>`;
+          }
+          if(sub) out += `</details>`;
         }
-        out += `</div>`;
+        continue;
       }
+
+      out += `<details class="cat-details"><summary class="cat-summary">${cat}</summary>`;
+      for(const sub of sortSubs(Object.keys(subs), cat)){
+        if(sub){
+          out += `<details class="sub-details"><summary class="sub-summary">${prettySub(sub)}</summary>`;
+        }
+        for(const it of subs[sub]){
+          // Modell-Startzeile (-001) ist bereits die Aufklapp-Überschrift.
+          // Deshalb nicht nochmals als Checkbox darunter anzeigen.
+          if(isModelItem(it) && isModelSelectRow(it)) continue;
+
+          const badge = it.required === 'Pflicht' ? '<span class="badge">Pflicht</span>' : '';
+          const checked = checkedItems.has(it.id) ? ' checked' : '';
+          out += `<label class="item"><input type="checkbox"${checked} onchange="toggleItemChecked('${it.id.replace(/'/g,"\\'")}', this.checked)"><span>${qtyText(it)}${badge}</span></label>`;
+        }
+        if(sub) out += `</details>`;
+      }
+      out += `</details>`;
     }
     out += `</section>`;
   }
 
-  if(!out.trim()){out='<section class="section person-section"><div class="empty">📦 Bitte links Personen und Module auswählen.</div></section>';} document.getElementById('results').innerHTML = out;
-  /* summary entfernt */ [
-    ...persons.filter(p=>p!=='Gemeinsam'),
-    document.getElementById('days').value + ' Tage',
-    ...Array.from(acts),
-    ...chosenModels
-  ].map(x=>`<span class="pill">${x}</span>`).join('');
+  if(!out.trim()){
+    out='<section class="section person-section"><div class="empty">Bitte links Personen und Module auswählen.</div></section>';
+  }
+  document.getElementById('results').innerHTML=out;
+  restoreOpenDetails(openDetails);
 }
 
 function resetChecks(){
-  document.querySelectorAll('#results input[type=checkbox]').forEach(cb => cb.checked=false);
+  // Komplett zurücksetzen: Zustand wie nach frisch geöffneter Seite
+  checkedItems.clear();
+  selectedModels.clear();
+
+  document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+  document.getElementById('days').value = 7;
+
+  const results = document.getElementById('results');
+  results.innerHTML = '<section class="section person-section"><div class="empty">Bitte links Personen und Module auswählen.</div></section>';
 }
 
-document.querySelectorAll('input').forEach(el => el.addEventListener('change', render));
+document.querySelectorAll('input').forEach(el=>el.addEventListener('change', render));
 render();
 </script>
 </body>
