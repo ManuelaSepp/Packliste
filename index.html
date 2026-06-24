@@ -111,6 +111,7 @@ import {
   getFirestore,
   collection,
   doc,
+  getDoc,
   getDocs,
   setDoc,
   onSnapshot,
@@ -129,6 +130,56 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const firestoreDb = getFirestore(app);
 const statusCollection = collection(firestoreDb, "status");
+
+const uiStateDoc = doc(firestoreDb, "status", "_ui_state");
+const UI_STATE_IDS = [
+  "a_urlaub",
+  "a_fotografie",
+  "a_modellflug",
+  "a_rueckreise",
+  "p_manuela",
+  "p_loisl",
+  "p_gemeinsam"
+];
+
+function readUIState(){
+  const state = {};
+  UI_STATE_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) state[id] = !!el.checked;
+  });
+  state.days = Number(document.getElementById("days")?.value || 7);
+  return state;
+}
+
+function applyUIState(state){
+  if(!state) return;
+  applyingRemoteSync = true;
+
+  UI_STATE_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if(el && typeof state[id] === "boolean") el.checked = state[id];
+  });
+
+  const days = document.getElementById("days");
+  if(days && state.days) days.value = state.days;
+
+  applyingRemoteSync = false;
+}
+
+async function saveUIState(){
+  if(!syncReady || applyingRemoteSync) return;
+  await setDoc(uiStateDoc, {
+    ...readUIState(),
+    geaendert_am: serverTimestamp()
+  }, { merge: true });
+}
+
+async function loadUIState(){
+  const snap = await getDoc(uiStateDoc);
+  if(snap.exists()) applyUIState(snap.data());
+}
+
 
 let syncReady = false;
 let applyingRemoteSync = false;
@@ -173,6 +224,7 @@ async function loadInitialStatus(){
   });
 
   applyingRemoteSync = false;
+  await loadUIState();
   syncReady = true;
   render();
 }
@@ -186,6 +238,10 @@ function startLiveSync(){
       const data = change.doc.data();
       const id = data.id || change.doc.id;
       if(id === "TEST") return;
+      if(id === "_ui_state"){
+        applyUIState(data);
+        return;
+      }
 
       if(change.type === "removed"){
         checkedItems.delete(id);
@@ -644,9 +700,17 @@ window.resetChecks = async function resetChecks(){
 
   const results = document.getElementById('results');
   results.innerHTML = '<section class="section person-section"><div class="empty">Bitte links Personen und Module auswählen.</div></section>';
+  await saveUIState();
 }
 
-document.querySelectorAll('input').forEach(el=>el.addEventListener('change', render));
+document.querySelectorAll('input').forEach(el=>el.addEventListener('change', async () => {
+  render();
+  await saveUIState();
+}));
+document.getElementById('days')?.addEventListener('change', async () => {
+  render();
+  await saveUIState();
+});
 render();
 </script>
 </body>
