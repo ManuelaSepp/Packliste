@@ -19,6 +19,8 @@
   --gemeinsam:#72c483;
   --kamera:#e8c95a;
   --modellflug:#3478d4;
+  --rueckreise:#5f84b8;
+  --rueckreise-soft:#eef5fc;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text)}
@@ -45,6 +47,8 @@ button{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:poi
 .person-section.gemeinsam{border-left:10px solid var(--gemeinsam)}
 .person-section.kamera{border-left:10px solid var(--kamera)}
 .person-section.modellflug{border-left:10px solid var(--modellflug)}
+.person-section.rueckreise{border-left:10px solid var(--rueckreise);background:var(--rueckreise-soft)}
+body.rueckreise-mode .header{border-color:#bfd0e5;background:#f5f9fe}
 .person-title{font-size:22px;margin:0 0 14px}
 .cat-details{border-top:1px solid var(--line);padding:10px 0}
 .cat-details:first-of-type{border-top:0}
@@ -67,7 +71,7 @@ button{border:0;border-radius:999px;padding:11px 17px;font-weight:700;cursor:poi
 </head>
 <body>
 <div class="page">
-  <div class="header"><h1>Packliste</h1></div>
+  <div class="header"><h1 id="pageTitle">Packliste – Hinreise</h1></div>
   <div class="layout">
     <aside class="panel">
       <div class="block">
@@ -273,7 +277,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 const personAliases = {"M":"Manuela","L":"Loisl","G":"Gemeinsam","Manuela":"Manuela","Loisl":"Loisl","Gemeinsam":"Gemeinsam"};
-const sectionClass = {"Rückreise":"gemeinsam","Manuela":"manuela","Loisl":"loisl","Gemeinsam":"gemeinsam","Kamera":"kamera","Modellflug":"modellflug"};
+const sectionClass = {"Rückreise":"rueckreise","Manuela":"manuela","Loisl":"loisl","Gemeinsam":"gemeinsam","Kamera":"kamera","Modellflug":"modellflug"};
 const sectionOrder = ['Rückreise','Manuela','Loisl','Gemeinsam','Kamera','Modellflug'];
 let selectedModels = new Set();
 let checkedItems = new Set();
@@ -509,24 +513,28 @@ function buildRueckreiseItems(){
     always: ''
   }));
 
-  const add = (id, name) => {
-    if(!name) return;
-    if(items.some(x => x.name === name)) return;
-    items.push({
-      id: 'RUECK-MOD-' + id,
-      category: 'Rückreise',
-      sub: 'Modellzubehör',
-      name,
-      person: 'G',
-      activity: 'Rückreise',
-      required: '',
-      always: ''
-    });
-  };
-
+  // Rückreise = Spiegelung aller tatsächlich gesetzten Hinreise-Haken.
+  // Die ursprüngliche Gliederung bleibt für die Darstellung erhalten.
   DB.items.forEach(it => {
-    if(it.category !== 'Modellbau' || it.sub !== 'Mitnehmen') return;
-    if(checkedItems.has(it.id)) add(it.id, it.name);
+    if(!checkedItems.has(it.id)) return;
+
+    // Kleidung und Schuhe werden bei der Rückreise nicht einzeln geprüft.
+    if(it.category === 'Kleidung' || it.category === 'Schuhe') return;
+
+    items.push({
+      id: 'RUECK-MOD-' + it.id,
+      category: 'Rückreise',
+      sub: 'Packliste',
+      name: it.name,
+      person: it.person,
+      activity: 'Rückreise',
+      required: it.required,
+      always: it.always,
+      originalId: it.id,
+      returnSection: displaySection(it),
+      returnCategory: displayCategory(it),
+      returnSub: displaySub(it)
+    });
   });
 
   return items;
@@ -536,18 +544,77 @@ window.toggleRueckreiseChecked = async function toggleRueckreiseChecked(itemId, 
   if(checked) rueckreiseChecked.add(itemId);
   else rueckreiseChecked.delete(itemId);
 
-  if(checked && itemId.startsWith('RUECK-MOD-')){
+  if(itemId.startsWith('RUECK-MOD-')){
     const originalId = itemId.replace('RUECK-MOD-','');
-    checkedItems.delete(originalId);
+
+    // Bei der Rückreise bestätigt = ursprünglicher Hinreise-Haken wird entfernt.
+    if(checked) checkedItems.delete(originalId);
+
     await saveStatus(originalId);
-    await saveRueckreiseStatus(itemId);
     render();
-    return;
+  }
+}
+
+function renderRueckreise(subs){
+  let out = '';
+  const allgemein = subs['Allgemein'] || [];
+  const packliste = subs['Packliste'] || [];
+
+  out += `<details class="cat-details"><summary class="cat-summary">Allgemein</summary>`;
+  for(const it of allgemein){
+    const checked = rueckreiseChecked.has(it.id) ? ' checked' : '';
+    out += `<label class="item"><input type="checkbox"${checked} onchange="toggleRueckreiseChecked('${it.id.replace(/'/g,"\\'")}', this.checked)"><span>${qtyText(it)}</span></label>`;
+  }
+  out += `</details>`;
+
+  const grouped = {};
+  for(const it of packliste){
+    const sec = it.returnSection || 'Gemeinsam';
+    const cat = it.returnCategory || 'Sonstiges';
+    const sub = it.returnSub || '';
+    grouped[sec] ??= {};
+    grouped[sec][cat] ??= {};
+    grouped[sec][cat][sub] ??= [];
+    grouped[sec][cat][sub].push(it);
   }
 
-  if(itemId.startsWith('RUECK-MOD-')){
-    await saveRueckreiseStatus(itemId);
+  const returnSections = sectionOrder
+    .filter(name => name !== 'Rückreise' && grouped[name])
+    .concat(Object.keys(grouped).filter(name => !sectionOrder.includes(name)));
+
+  for(const sec of returnSections){
+    out += `<details class="cat-details"><summary class="cat-summary">${displayLabel(sec)} – Rückreise</summary>`;
+
+    const catNames = sortCategories(Object.keys(grouped[sec]));
+    for(const cat of catNames){
+      out += `<details class="sub-details"><summary class="sub-summary">${cat}</summary>`;
+
+      const subNames = sortSubs(Object.keys(grouped[sec][cat]), cat);
+      for(const sub of subNames){
+        if(sub){
+          out += `<details class="sub-details"><summary class="sub-summary">${prettySub(sub)}</summary>`;
+        }
+
+        for(const it of grouped[sec][cat][sub]){
+          const checked = rueckreiseChecked.has(it.id) ? ' checked' : '';
+          const badge = it.required === 'Pflicht' ? '<span class="badge">Pflicht</span>' : '';
+          out += `<label class="item"><input type="checkbox"${checked} onchange="toggleRueckreiseChecked('${it.id.replace(/'/g,"\\'")}', this.checked)"><span>${qtyText(it)}${badge}</span></label>`;
+        }
+
+        if(sub) out += `</details>`;
+      }
+
+      out += `</details>`;
+    }
+
+    out += `</details>`;
   }
+
+  if(packliste.length === 0){
+    out += `<div class="empty">Es sind aktuell keine eingepackten Gegenstände offen.</div>`;
+  }
+
+  return out;
 }
 
 function groupItems(items){
@@ -583,9 +650,16 @@ function restoreOpenDetails(openTitles){
 }
 
 function render(){
+  const rueckreiseAktiv = !!document.getElementById('a_rueckreise')?.checked;
+  const pageTitle = document.getElementById('pageTitle');
+  if(pageTitle) pageTitle.textContent = rueckreiseAktiv ? 'Packliste – Rückreise' : 'Packliste – Hinreise';
+  document.body.classList.toggle('rueckreise-mode', rueckreiseAktiv);
+
   const openDetails = rememberOpenDetails();
   const persons=selectedPersons();
-  const filtered = DB.items.filter(it => includeItem(it, persons)).concat(buildRueckreiseItems());
+  const filtered = rueckreiseAktiv
+    ? buildRueckreiseItems()
+    : DB.items.filter(it => includeItem(it, persons));
   const grouped = groupItems(filtered);
 
   let out='';
@@ -600,19 +674,7 @@ function render(){
       const subs = cats[cat];
 
       if(section === 'Rückreise' && cat === 'Rückreise'){
-        const subNames = Object.keys(subs);
-        if(!subNames.includes('Modellzubehör')) subs['Modellzubehör'] = [];
-        for(const sub of Object.keys(subs).sort((a,b)=>{
-          const order = ['Allgemein','Modellzubehör'];
-          return order.indexOf(a) - order.indexOf(b);
-        })){
-          out += `<details class="cat-details"><summary class="cat-summary">${sub}</summary>`;
-          for(const it of subs[sub]){
-            const checked = rueckreiseChecked.has(it.id) ? ' checked' : '';
-            out += `<label class="item"><input type="checkbox"${checked} onchange="toggleRueckreiseChecked('${it.id.replace(/'/g,"\\'")}', this.checked)"><span>${qtyText(it)}</span></label>`;
-          }
-          out += `</details>`;
-        }
+        out += renderRueckreise(subs);
         continue;
       }
 
