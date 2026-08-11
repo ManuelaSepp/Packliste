@@ -225,6 +225,7 @@ async function loadInitialStatus(){
     if(id === "TEST") return;
     if(data.mitnehmen === true) checkedItems.add(id);
     if(data.rueckreise === true) rueckreiseChecked.add("RUECK-MOD-" + id);
+    if(data.rueckreiseAllgemein === true) rueckreiseChecked.add(id);
   });
 
   applyingRemoteSync = false;
@@ -544,6 +545,20 @@ window.toggleRueckreiseChecked = async function toggleRueckreiseChecked(itemId, 
   if(checked) rueckreiseChecked.add(itemId);
   else rueckreiseChecked.delete(itemId);
 
+  // Allgemeine Rückreise-Haken separat in Firebase speichern
+  if(itemId.startsWith('RUECK-ALLG-')){
+    await setDoc(
+      doc(statusCollection, itemId),
+      {
+        id: itemId,
+        rueckreiseAllgemein: checked,
+        geaendert_am: serverTimestamp()
+      },
+      { merge: true }
+    );
+    return;
+  }
+
   if(itemId.startsWith('RUECK-MOD-')){
     const originalId = itemId.replace('RUECK-MOD-','');
 
@@ -554,7 +569,6 @@ window.toggleRueckreiseChecked = async function toggleRueckreiseChecked(itemId, 
     render();
   }
 }
-
 function renderRueckreise(subs){
   let out = '';
   const allgemein = subs['Allgemein'] || [];
@@ -763,11 +777,12 @@ async function clearAllFirestoreStatus(){
 
     if(id === "TEST" || id === "_ui_state") return;
 
-    batch.set(d.ref, {
-      mitnehmen: false,
-      rueckreise: false,
-      geaendert_am: serverTimestamp()
-    }, { merge: true });
+  batch.set(d.ref, {
+  mitnehmen: false,
+  rueckreise: false,
+  rueckreiseAllgemein: false,
+  geaendert_am: serverTimestamp()
+}, { merge: true });
   });
 
   await batch.commit();
